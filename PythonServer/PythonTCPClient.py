@@ -1,0 +1,77 @@
+import threading
+from socket import *
+clientSocket = socket(AF_INET, SOCK_STREAM)
+print("Now connecting to server...\n")   
+try:
+    clientSocket.connect(("localhost", 12000))
+    print("Connection successfull!")
+except error as e:
+    print(f"Failed to connect! {e}")
+    clientSocket.close()
+    exit(1)
+
+def endcase(socket, request):
+    socket.send(request.encode())
+    print("Exiting Client")
+    socket.shutdown(SHUT_RDWR)
+    socket.close()
+    
+def sendMsg(socket):
+    request = input("Enter request: ")
+    if request.lower()=="exit":
+        endcase(socket, request.lower())
+        return False
+    else:
+        socket.send(request.encode())
+        return True
+
+def receiveMsg(socket):
+    response = socket.recv(1024).decode()
+    print(f"Response from server: {response}")
+    return
+
+def clientService(socket):
+    while True:
+        try:
+            receiveMsg(socket)
+            if not sendMsg(socket):
+                break
+        except error as e:
+            print(f"Connection lost: {e}")
+            break
+    
+"""
+def service(socket):
+    while True:
+        threading.Thread(target=recieveMsg, args(socket)).start()
+        threading.Thread(target=sendMsg, args(socket)).start()
+    
+
+service(clientSocket)
+"""
+
+threading.Thread(target=clientService, args=(clientSocket,)).start()
+    
+"""
+try:
+    clientSocket.connect(("localhost", 12000))
+    print("connection success")
+except error as e:
+    print(f"connection failed: {e}")
+    clientSocket.close()
+    exit(1)
+
+def service(socket):
+    While True:
+        request = input("Enter request: ")
+        socket.send(request.encode())
+        response = socket.recv(1024).decode()
+        print(f"Response from server: {response}")
+        if request.lower()=="exit":
+            print("Exiting client")
+        socket.close()
+
+
+thread.Treading(target=service, args=(clientSocket)).start()
+
+"""
