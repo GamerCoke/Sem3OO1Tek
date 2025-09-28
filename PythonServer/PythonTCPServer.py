@@ -4,7 +4,7 @@ import random
 
 #########
 # Defining server 
-serverport = 12345
+serverport = 12000
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(("", serverport))
 serverSocket.listen(5)
@@ -46,9 +46,16 @@ def randomcase(socket):
     msg = "Input numbers"
     sendMsg(msg, socket)
     msg = recieve(socket)
-    num1, num2 = numberHandling(msg)
-    msg = str(random.randrange(int(num1), int(num2)))
-    sendMsg(msg, socket)
+    numbers = numberHandling(msg)
+    if (len(numbers)== 2):
+        msg = str(random.randrange(int(numbers[0]), int(numbers[1])))
+        sendMsg(msg, socket)
+    elif (len(numbers)>2):
+        msg = "Too many numbers, function only supports 2 input numbers"
+        sendMsg(msg, socket)
+    elif (len(numbers)<2):
+        msg = "Too few numbers, function only suppoorts 2 input numbers"
+        sendMsg(msg, socket)
     return
 
 def addcase(socket):
@@ -57,8 +64,15 @@ def addcase(socket):
     sendMsg(msg, socket)
     msg = recieve(socket)
     numbers = numberHandling(msg)
-    msg = str(int(numbers[0])+int(numbers[1]))
-    sendMsg(msg, socket)
+    if (len(numbers)== 2):
+        msg = str(int(numbers[0])+int(numbers[1]))
+        sendMsg(msg, socket)
+    elif (len(numbers)>2):
+        msg = "Too many numbers, function only supports 2 input numbers"
+        sendMsg(msg, socket)
+    elif (len(numbers)<2):
+        msg = "Too few numbers, function only suppoorts 2 input numbers"
+        sendMsg(msg, socket)
     return
 
 def subtractcase(socket):
@@ -67,8 +81,15 @@ def subtractcase(socket):
     sendMsg(msg, socket)
     msg = recieve(socket)
     numbers = numberHandling(msg)
-    msg = str(int(numbers[0])-int(numbers[1]))
-    sendMsg(msg, socket)
+    if (len(numbers)== 2):
+        msg = str(int(numbers[0])-int(numbers[1]))
+        sendMsg(msg, socket)
+    elif (len(numbers)>2):
+        msg = "Too many numbers, function only supports 2 input numbers"
+        sendMsg(msg, socket)
+    elif (len(numbers)<2):
+        msg = "Too few numbers, function only suppoorts 2 input numbers"
+        sendMsg(msg, socket)
     return
                                                                                                                                 #
                                                                                                                         #########
