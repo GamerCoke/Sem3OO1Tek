@@ -12,13 +12,6 @@ serverSocket.listen(5)
                                                                                                                         #########
 
 #########
-# Classes & Variables
-
-
-                                                                                                                                #
-                                                                                                                        #########
-
-#########
 # Deffinitions & Functions
 def recieve(socket):
     message = socket.recv(1024).decode("latin-1").strip()
