@@ -43,8 +43,13 @@ def clientService(socket):
 """
 def service(socket):
     while True:
-        threading.Thread(target=recieveMsg, args(socket)).start()
-        threading.Thread(target=sendMsg, args(socket)).start()
+        try:
+            threading.Thread(target=receiveMsg, args=(socket,)).start()
+            if not threading.Thread(target=sendMsg, args=(socket,)).start():
+                break
+        except error as e:
+            print(f"Connection lost: {e}")
+            break
     
 
 service(clientSocket)
