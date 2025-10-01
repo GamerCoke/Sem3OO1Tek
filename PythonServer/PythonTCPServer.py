@@ -13,9 +13,9 @@ serverSocket.listen(5)
 
 #########
 # Deffinitions & Functions
-def recieve(socket):
+def receive(socket):
     message = socket.recv(1024).decode("latin-1").strip()
-    print(f"Message recieved: {message}")
+    print(f"Message received: {message}")
     return message
 
 def requestCheck(message):
@@ -38,7 +38,7 @@ def randomcase(socket):
     print("Random command called")
     msg = "Input numbers"
     sendMsg(msg, socket)
-    msg = recieve(socket)
+    msg = receive(socket)
     numbers = numberHandling(msg)
     if (len(numbers)== 2):
         msg = str(random.randrange(int(numbers[0]), int(numbers[1])))
@@ -55,7 +55,7 @@ def addcase(socket):
     print("Add command called")
     msg = "Input numbers"
     sendMsg(msg, socket)
-    msg = recieve(socket)
+    msg = receive(socket)
     numbers = numberHandling(msg)
     if (len(numbers)== 2):
         msg = str(int(numbers[0])+int(numbers[1]))
@@ -72,7 +72,7 @@ def subtractcase(socket):
     print("Subtract command called")
     msg = "Input numbers"
     sendMsg(msg, socket)
-    msg = recieve(socket)
+    msg = receive(socket)
     numbers = numberHandling(msg)
     if (len(numbers)== 2):
         msg = str(int(numbers[0])-int(numbers[1]))
@@ -102,7 +102,7 @@ commands = {
 # Actual Server
 def service(socket):
     while True:
-        message = recieve(socket)
+        message = receive(socket)
         request = requestCheck(message)[0]
         if request in commands:
             commands[request](socket)
