@@ -20,23 +20,23 @@ def endcase(socket, request):
     
 def sendMsg(socket):
     request = input("Enter request: ")
-    request.split(" ")
+    request = request.split(" ")
     if request[0].lower()=="exit":
         endcase(socket, request.lower())
         return False
-    if (len(request)!= 1 or len(request)!=3):
+    if len(request) not in (1, 3):
         construct = {
             "command":"bad input",
             "num1":"null",
             "num2":"null"
         }
-    elif (len(request)==1):
+    elif len(request)==1:
         construct = {
             "command":request[0],
             "num1":"null",
             "num2":"null"
             }
-    elif(len(request)==3):
+    elif len(request)==3:
         construct = {
             "command":request[0],
             "num1":int(request[1]),
@@ -51,20 +51,6 @@ def receiveMsg(socket):
     print(f"Response from server: {response}")
     return  
 
-def service(socket):
-    while True:
-        try:
-            threading.Thread(target=receiveMsg, args=(socket,)).start()
-            if not threading.Thread(target=sendMsg, args=(socket,)).start():
-                break
-        except error as e:
-            print(f"Connection lost: {e}")
-            break
-    
-
-service(clientSocket)
-
-"""
 def clientService(socket):
     while True:
         try:
@@ -74,10 +60,22 @@ def clientService(socket):
         except error as e:
             print(f"Connection lost: {e}")
             break
-"""
+
+threading.Thread(target=clientService, args=(clientSocket,)).start()
 
 """
-threading.Thread(target=clientService, args=(clientSocket,)).start()
+def service(socket):
+    while True:
+        try:
+            threading.Thread(target=receiveMsg, args=(socket,)).start()
+            if not threading.Thread(target=sendMsg, args=(socket,)).start():     # Does not work, always returns False
+                break
+        except error as e:
+            print(f"Connection lost: {e}")
+            break
+    
+
+service(clientSocket)
 """
     
 """
