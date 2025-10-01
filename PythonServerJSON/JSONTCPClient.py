@@ -12,8 +12,14 @@ except error as e:
     clientSocket.close()
     exit(1)
 
-def endcase(socket, request):
-    socket.send(request.encode())
+def endcase(socket):
+    construct = {
+        "command":"exit",
+        "num1":"null",
+        "num2":"null"
+        }
+    msg = json.dumps(construct)
+    socket.send(msg.encode())
     print("Exiting Client")
     socket.shutdown(SHUT_RDWR)
     socket.close()
@@ -22,7 +28,7 @@ def sendMsg(socket):
     request = input("Enter request: ")
     request = request.split(" ")
     if request[0].lower()=="exit":
-        endcase(socket, request.lower())
+        endcase(socket)
         return False
     if len(request) not in (1, 3):
         construct = {

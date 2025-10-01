@@ -50,7 +50,7 @@ def requestCheck(incomingDict: dict, socket):
         sendMsg(msg, socket)
         return
 
-    commands[incomingCommand](socket)
+    commands[incomingCommand](incomingDict,socket)
     return True
 
 def sendMsg(message, socket):
